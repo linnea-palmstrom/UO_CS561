@@ -643,8 +643,8 @@ obj_ref native_Int_sub(void ) {
     assert_is_type(other, the_class_Int);
     obj_Int other_int = (obj_Int) other;
     log_debug("Subtracting integer values: %d - %d",
-           this_int->value, other_int->value);
-    obj_ref result = new_int(this_int->value - other_int->value);
+           other_int->value, this_int->value);
+    obj_ref result = new_int(other_int->value - this_int->value);
     return result;
 }
 
@@ -687,8 +687,8 @@ obj_ref native_Int_div(void ) {
     assert_is_type(other, the_class_Int);
     obj_Int other_int = (obj_Int) other;
     log_debug("Dividing integer values: %d / %d",
-           this_int->value, other_int->value);
-    obj_ref result = new_int(this_int->value / other_int->value);
+           other_int->value, this_int->value);
+    obj_ref result = new_int(other_int->value / this_int->value);
     return result;
 }
 

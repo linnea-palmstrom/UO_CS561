@@ -57,22 +57,22 @@ class EmitCode(Transformer):
 
     def add(self, left, right):
         log.debug('sum "+" product   -> add')
-        print("call Int:Plus")
+        print("call Int:plus")
 
     def sub(self, left, right):
         log.debug('sum "-" product   -> sub')
-        print("call Int:Minus")
+        print("call Int:sub")
 
     def product(self, left):
         log.debug('?product: atom')
 
     def mul(self, left, right):
         log.debug('product "*" atom   -> mul')
-        print("call Int:Times")
+        print("call Int:mul")
 
     def div(self, left, right):
         log.debug('product "/" atom   -> div')
-        print("call Int:Div")
+        print("call Int:div")
 
     def number(self, v):
         log.debug(f'number: {v}')
@@ -81,7 +81,7 @@ class EmitCode(Transformer):
     def neg(self, left):
         log.debug('"-" atom           -> neg')
         print("const 0")
-        print("call Int:Minus")
+        print("call Int:sub")
 
     def var(self, name):
         try:
