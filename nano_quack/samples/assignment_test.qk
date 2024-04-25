@@ -8,5 +8,5 @@ class $Main(r: Int) {
     g: Int = e / 11;
     h: Int = 27 / 11;
     k: Int = 2 - 7 + 5;
-    k: Int = 2 - 7 * 5;
+    t: Int = 2 - 7 * 5;
 }
