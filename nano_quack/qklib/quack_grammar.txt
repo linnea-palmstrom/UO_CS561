@@ -43,11 +43,11 @@ product: value
    | product "/" value -> divide
 
 // Possible type declarations in Quack
-type: "Obj"
-   | "Int"
-   | "String"
-   | "Nothing"
-   | "Bool"
+type: /Obj/
+   | /Int/
+   | /String/
+   | /Nothing/
+   | /Bool/
 
 value: name
    | INT_CONST
