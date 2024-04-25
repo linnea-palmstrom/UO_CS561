@@ -28,6 +28,7 @@ block: _stmt*
 
 _stmt: ifstmt
       | assignment ";"
+      | value ";"
 
 assignment: name ":" _type "=" value -> assignment
    | name ":" _type "=" expression -> assignment
