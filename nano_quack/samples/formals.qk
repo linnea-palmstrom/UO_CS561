@@ -1,0 +1,6 @@
+class Sample(x: Int) {
+   def SampleMethod(y: String) {
+       s1;
+   }
+}
+s2;

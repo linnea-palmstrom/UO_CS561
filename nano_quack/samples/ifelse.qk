@@ -1,0 +1,15 @@
+class Shallow(x: Int, Y:String) {
+   def sample_method() {
+     if c1 { s1; s2; }
+     else { s3; s4;  }
+   }
+   s5;
+   if c2 { s6; }
+   elif c3 { s7; }
+}
+main_block;
+if c3 { s8; }
+elif c4 { s9; }
+else { s10; }
+s11;
+
