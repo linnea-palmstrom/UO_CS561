@@ -1,8 +1,12 @@
-y: Int = 4;
-x: Int = "13";
-z: Int = y + 15;
-w: String = "3" + x;
-m: Int = y - 15;
-e: Int = m * 4;
-g: Int = e / 11;
-h: Int = 27 / 11;
+class $Main(r: Int) {
+    y: Int = 4;
+    x: Int = "13";
+    z: Int = y + 15;
+    w: String = "3" + x;
+    m: Int = y - 15;
+    e: Int = m * 4;
+    g: Int = e / 11;
+    h: Int = 27 / 11;
+    k: Int = 2 - 7 + 5;
+    k: Int = 2 - 7 * 5;
+}

@@ -15,6 +15,7 @@ classes: clazz*
 
 clazz: _class_sig  "{" methods block "}"
 _class_sig: "class" name "("  formals ")" [ "extends" name ]
+    | "class $" name "("  formals ")" [ "extends" name ]
 methods: method*
 
 formals: [formal ("," formal)*]
@@ -30,14 +31,16 @@ _stmt: ifstmt
       | assignment ";"
       | value ";"
 
-assignment: name ":" _type "=" value -> assignment
-   | name ":" _type "=" expression -> assignment
+assignment: name ":" _type "=" sum -> assignment
 
-expression: value
-   | expression "+" value -> plus
-   | expression "-" value -> minus
-   | expression "*" value -> times
-   | expression "/" value -> divide
+// Separated out the sum and product to get the right order of operations
+sum: product
+   | sum "+" product -> plus
+   | sum "-" product -> minus
+
+product: value
+   | product "*" value -> times
+   | product "/" value -> divide
 
 // Possible type declarations in Quack
 _type: "Obj"
