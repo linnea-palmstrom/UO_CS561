@@ -31,7 +31,7 @@ _stmt: ifstmt
       | assignment ";"
       | value ";"
 
-assignment: name ":" _type "=" sum -> assignment
+assignment: name ":" type "=" sum -> assignment
 
 // Separated out the sum and product to get the right order of operations
 sum: product
@@ -43,7 +43,7 @@ product: value
    | product "/" value -> divide
 
 // Possible type declarations in Quack
-_type: "Obj"
+type: "Obj"
    | "Int"
    | "String"
    | "Nothing"
@@ -72,6 +72,7 @@ expr: ident -> variable_ref
 ident: IDENT
 
 method: "def" name "(" formals ")" returns "{" block "}"
+   | "def $" name "(" formals ")" returns "{" block "}"
 returns: (":"  name)?
 
 IDENT: /[_a-zA-Z][_a-zA-Z0-9]*/
