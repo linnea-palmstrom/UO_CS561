@@ -1,0 +1,260 @@
+State 17 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: expr
+
+    2 expr: boolsum
+
+    3 boolsum: boolsum "and" boolterm
+    4        | boolsum "or" boolterm
+    5        | "not" boolterm
+
+    6 boolterm: boolprim
+
+    7 boolprim: sum LT sum
+    8         | sum
+
+    9 sum: term
+   10    | sum PLUS sum
+
+   11 term: ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 11
+PLUS (259) 10
+LT (260) 7
+"and" (261) 3
+"or" (262) 4
+"not" (263) 5
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+program (10)
+    on left: 1, on right: 0
+expr (11)
+    on left: 2, on right: 1
+boolsum (12)
+    on left: 3 4 5, on right: 2 3 4
+boolterm (13)
+    on left: 6, on right: 3 4 5
+boolprim (14)
+    on left: 7 8, on right: 6
+sum (15)
+    on left: 9 10, on right: 7 8 10
+term (16)
+    on left: 11, on right: 9
+
+
+state 0
+
+    0 $accept: . program $end
+    1 program: . expr
+    2 expr: . boolsum
+    3 boolsum: . boolsum "and" boolterm
+    4        | . boolsum "or" boolterm
+    5        | . "not" boolterm
+
+    "not"  shift, and go to state 1
+
+    program  go to state 2
+    expr     go to state 3
+    boolsum  go to state 4
+
+
+state 1
+
+    5 boolsum: "not" . boolterm
+    6 boolterm: . boolprim
+    7 boolprim: . sum LT sum
+    8         | . sum
+    9 sum: . term
+   10    | . sum PLUS sum
+   11 term: . ID
+
+    ID  shift, and go to state 5
+
+    boolterm  go to state 6
+    boolprim  go to state 7
+    sum       go to state 8
+    term      go to state 9
+
+
+state 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 10
+
+
+state 3
+
+    1 program: expr .
+
+    $default  reduce using rule 1 (program)
+
+
+state 4
+
+    2 expr: boolsum .  [$end]
+    3 boolsum: boolsum . "and" boolterm
+    4        | boolsum . "or" boolterm
+
+    "and"  shift, and go to state 11
+    "or"   shift, and go to state 12
+
+    $default  reduce using rule 2 (expr)
+
+
+state 5
+
+   11 term: ID .
+
+    $default  reduce using rule 11 (term)
+
+
+state 6
+
+    5 boolsum: "not" boolterm .
+
+    $default  reduce using rule 5 (boolsum)
+
+
+state 7
+
+    6 boolterm: boolprim .
+
+    $default  reduce using rule 6 (boolterm)
+
+
+state 8
+
+    7 boolprim: sum . LT sum
+    8         | sum .  [$end, "and", "or"]
+   10 sum: sum . PLUS sum
+
+    PLUS  shift, and go to state 13
+    LT    shift, and go to state 14
+
+    $default  reduce using rule 8 (boolprim)
+
+
+state 9
+
+    9 sum: term .
+
+    $default  reduce using rule 9 (sum)
+
+
+state 10
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 11
+
+    3 boolsum: boolsum "and" . boolterm
+    6 boolterm: . boolprim
+    7 boolprim: . sum LT sum
+    8         | . sum
+    9 sum: . term
+   10    | . sum PLUS sum
+   11 term: . ID
+
+    ID  shift, and go to state 5
+
+    boolterm  go to state 15
+    boolprim  go to state 7
+    sum       go to state 8
+    term      go to state 9
+
+
+state 12
+
+    4 boolsum: boolsum "or" . boolterm
+    6 boolterm: . boolprim
+    7 boolprim: . sum LT sum
+    8         | . sum
+    9 sum: . term
+   10    | . sum PLUS sum
+   11 term: . ID
+
+    ID  shift, and go to state 5
+
+    boolterm  go to state 16
+    boolprim  go to state 7
+    sum       go to state 8
+    term      go to state 9
+
+
+state 13
+
+    9 sum: . term
+   10    | . sum PLUS sum
+   10    | sum PLUS . sum
+   11 term: . ID
+
+    ID  shift, and go to state 5
+
+    sum   go to state 17
+    term  go to state 9
+
+
+state 14
+
+    7 boolprim: sum LT . sum
+    9 sum: . term
+   10    | . sum PLUS sum
+   11 term: . ID
+
+    ID  shift, and go to state 5
+
+    sum   go to state 18
+    term  go to state 9
+
+
+state 15
+
+    3 boolsum: boolsum "and" boolterm .
+
+    $default  reduce using rule 3 (boolsum)
+
+
+state 16
+
+    4 boolsum: boolsum "or" boolterm .
+
+    $default  reduce using rule 4 (boolsum)
+
+
+state 17
+
+   10 sum: sum . PLUS sum  [$end, PLUS, LT, "and", "or"]
+   10    | sum PLUS sum .  [$end, PLUS, LT, "and", "or"]
+
+    PLUS  shift, and go to state 13
+
+    PLUS      [reduce using rule 10 (sum)]
+    $default  reduce using rule 10 (sum)
+
+
+state 18
+
+    7 boolprim: sum LT sum .  [$end, "and", "or"]
+   10 sum: sum . PLUS sum
+
+    PLUS  shift, and go to state 13
+
+    $default  reduce using rule 7 (boolprim)

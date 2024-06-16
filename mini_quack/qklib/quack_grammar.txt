@@ -1,0 +1,92 @@
+//
+// Moved grammar out of the parser file because it was
+// getting unwieldy.  This is still a stub, but I've added some more
+// pieces to illustrate how if/elif/elif/else can be flatted down into
+// nested if/else (including the potential else to be omitted)
+//
+// One advantage of grammar in a separate file is that Lark error messages
+// citing line# will correspond to actual line#.
+//
+
+?start: program
+
+program: classes block
+classes: clazz*
+
+clazz: _class_sig  "{" methods block "}"
+_class_sig: "class" name "("  formals ")" [ "extends" name ]
+methods: method*
+
+formals: [formal ("," formal)*]
+formal: name ":" name
+
+?constructor: block
+
+name: IDENT -> ident
+
+block: _stmt*
+
+_stmt: ifstmt
+      | assignment ";"
+      | value ";"
+
+assignment: ident ":" type "=" sum -> assignment
+
+// Separated out the sum and product to get the right order of operations
+sum: product
+   | sum "+" product -> plus
+   | sum "-" product -> minus
+
+product: value
+   | product "*" value -> times
+   | product "/" value -> divide
+
+// Possible type declarations in Quack
+type: /Obj/
+   | /Int/
+   | /String/
+   | /Nothing/
+   | /Bool/
+
+//value: name
+//   | INT_CONST
+//   | STR_CONST
+
+value: name
+   | int_const
+   | str_const
+
+// Added these nodes so that the value node
+// would always have a child rather than
+// sometimes having a child and sometimes
+// outputting a token
+int_const: INT_CONST
+
+str_const: STR_CONST
+
+// Integer constants
+INT_CONST: /[0-9]+/
+
+// String constants
+STR_CONST: /"[a-zA-Z0-9]+"/
+
+// An 'if' statement may have zero or more elifs and
+// zero or one else
+ifstmt: "if" _cond  _curlyblock otherwise
+_curlyblock: "{" block "}"
+otherwise:  -> block   // This creates an annoying empty block
+   | "else" _curlyblock -> elseblock
+   | "elif" _cond _curlyblock otherwise -> ifstmt
+
+_cond: expr
+expr: ident -> variable_ref
+variable_ref: ident
+ident: IDENT
+
+method: "def" name "(" formals ")" returns "{" block "}"
+returns: (":"  name)?
+
+IDENT: /[_a-zA-Z][_a-zA-Z0-9]*/
+
+%import common.WS
+%ignore WS
